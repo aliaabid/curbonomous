@@ -3,6 +3,7 @@ import Nav from "@/components/nav/Nav";
 import Footer from "@/components/sections/Footer";
 import Link from "next/link";
 import { CITIES, getCityBySlug, getAllCitySlugs } from "@/lib/cities";
+import { CITY_CONTENT } from "@/lib/city-content";
 
 export async function generateStaticParams() {
   return getAllCitySlugs().map((city) => ({ city }));
@@ -37,6 +38,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
   }
 
   const nearbycities = CITIES.filter((c) => c.slug !== city.slug && c.tier <= city.tier + 1).slice(0, 4);
+  const content = CITY_CONTENT[city.slug];
 
   return (
     <main className="relative min-h-screen" style={{ background: "#000008" }}>
@@ -69,9 +71,14 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
               Autonomous Vehicle Infrastructure<br />
               <span style={{ color: city.accentColor }}>in {city.name}, {city.state}</span>
             </h1>
-            <p style={{ fontSize: "1.1rem", color: "rgba(200,216,240,0.65)", lineHeight: 1.75, maxWidth: "56ch", marginBottom: "2.5rem" }}>
-              {city.description} Curbonomous provides the dedicated curb infrastructure layer for {city.name}&apos;s autonomous mobility ecosystem.
+            <p style={{ fontSize: "1.1rem", color: "rgba(200,216,240,0.65)", lineHeight: 1.75, maxWidth: "60ch", marginBottom: content ? "1.5rem" : "2.5rem" }}>
+              {city.description}
             </p>
+            {content && (
+              <p style={{ fontSize: "0.95rem", color: "rgba(200,216,240,0.5)", lineHeight: 1.8, maxWidth: "60ch", marginBottom: "2.5rem" }}>
+                {content.context}
+              </p>
+            )}
             <div className="flex flex-wrap gap-4">
               <a
                 href={`mailto:demo@curbonomous.com?subject=Infrastructure Assessment - ${city.name}`}
@@ -103,6 +110,30 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
             ))}
           </div>
         </section>
+
+        {/* City-specific challenges */}
+        {content && (
+          <section className="py-20 px-6" style={{ borderTop: "1px solid rgba(0,212,255,0.06)" }}>
+            <div className="max-w-screen-xl mx-auto">
+              <div className="text-[10px] font-bold tracking-widest uppercase mb-3" style={{ color: city.accentColor }}>INFRASTRUCTURE CHALLENGES IN {city.name.toUpperCase()}</div>
+              <h2 className="font-black text-white mb-10" style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", letterSpacing: "-0.02em" }}>
+                Why {city.name} needs dedicated AV infrastructure
+              </h2>
+              <div className="grid md:grid-cols-3 gap-5 mb-12">
+                {content.challenges.map((challenge, i) => (
+                  <div key={i} className="p-6" style={{ background: "rgba(5,12,25,0.8)", border: `1px solid rgba(255,51,68,0.12)` }}>
+                    <div className="text-[9px] font-bold tracking-widest uppercase mb-3" style={{ color: "rgba(255,80,100,0.7)", fontFamily: "monospace" }}>CHALLENGE 0{i + 1}</div>
+                    <p className="text-sm" style={{ color: "rgba(200,216,240,0.65)", lineHeight: 1.7 }}>{challenge}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="p-8" style={{ background: `linear-gradient(135deg, ${city.accentColor}08, transparent)`, border: `1px solid ${city.accentColor}20` }}>
+                <div className="text-[9px] font-bold tracking-widest uppercase mb-2" style={{ color: city.accentColor, fontFamily: "monospace" }}>THE OPPORTUNITY</div>
+                <p style={{ color: "rgba(200,216,240,0.7)", lineHeight: 1.75, maxWidth: "64ch" }}>{content.opportunity}</p>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* AV ecosystem */}
         <section className="py-20 px-6">
