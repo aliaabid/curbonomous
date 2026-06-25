@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllCitySlugs } from "@/lib/cities";
 
-const BASE_URL = "https://curbonomous.com";
+const BASE_URL = "https://www.curbonomous.com";
 
 const SOLUTIONS = [
   "curb-management",

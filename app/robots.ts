@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://curbonomous.com/sitemap.xml",
+    sitemap: "https://www.curbonomous.com/sitemap.xml",
   };
 }
