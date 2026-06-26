@@ -190,6 +190,16 @@ export default function Nav() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/investors"
+            className="transition-all duration-200 text-xs font-semibold tracking-widest uppercase px-3 py-1"
+            style={{
+              color: pathname === "/investors" ? "#00d4ff" : "rgba(200,216,240,0.45)",
+              border: "1px solid rgba(200,216,240,0.1)",
+            }}
+          >
+            Investors
+          </Link>
         </div>
 
         {/* CTA */}
@@ -238,6 +248,9 @@ export default function Nav() {
                 {link.label}
               </Link>
             ))}
+            <Link href="/investors" onClick={() => setOpen(false)} className="block py-2.5 text-xs font-semibold tracking-widest uppercase border-b" style={{ color: "rgba(200,216,240,0.5)", borderColor: "rgba(0,212,255,0.05)" }}>
+              Investor Brief
+            </Link>
             <a href="mailto:demo@curbonomous.com" className="block mt-4 py-3 text-xs font-bold tracking-widest uppercase text-center" style={{ background: "linear-gradient(135deg, #00d4ff, #0066ff)", color: "#000" }}>
               Schedule Demo →
             </a>
